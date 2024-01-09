@@ -3,11 +3,13 @@ package engine
 import (
 	"github.com/google/uuid"
 	"ticktack/internal"
+	"ticktack/player"
 )
 
 type Game struct {
-	Id   uuid.UUID
-	Tick uint
+	Id      uuid.UUID
+	Tick    uint
+	Players []player.Player
 	Status
 	internal.Logger
 }
@@ -23,7 +25,7 @@ func (g *Game) Start() {
 
 func (g *Game) Finish() {
 	if g.Status != InProgress {
-		panic("Game not in progress")
+		panic("Game is not in progress")
 	}
 	g.Status = Finished
 	g.Logger.GameFinished()
@@ -31,10 +33,15 @@ func (g *Game) Finish() {
 
 func (g *Game) StopWithError(message string) {
 	if g.Status != InProgress {
-		panic("Game not in progress")
+		panic("Game is not in progress")
 	}
 	g.Status = Error
 	g.Logger.Error(message)
+}
+
+func (g *Game) Win(player player.Player) {
+	g.Finish()
+	g.Logger.Win(player)
 }
 
 func (g *Game) onTick() {
@@ -49,11 +56,12 @@ func (g *Game) NextTick() {
 	g.onTick()
 }
 
-func NewGame() *Game {
+func NewGame(players []player.Player) *Game {
 	id := uuid.New()
 	return &Game{
-		Id:     id,
-		Status: NotStarted,
-		Logger: internal.Logger{GameId: id},
+		Id:      id,
+		Status:  NotStarted,
+		Players: players,
+		Logger:  internal.Logger{GameId: id},
 	}
 }

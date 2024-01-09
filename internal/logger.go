@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"github.com/google/uuid"
+	"ticktack/player"
 )
 
 type Logger struct {
@@ -19,6 +20,10 @@ func (l *Logger) NewTick(tick uint) {
 
 func (l *Logger) GameFinished() {
 	fmt.Printf("%s: Game finished\n", l.GameId.String())
+}
+
+func (l *Logger) Win(player player.Player) {
+	fmt.Printf("%s: Winner is %s (ID: %d)\n", l.GameId.String(), player.Name, player.Id)
 }
 
 func (l *Logger) Error(message string) {

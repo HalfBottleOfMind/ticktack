@@ -1,14 +1,27 @@
 package main
 
-import "ticktack/engine"
+import (
+	"ticktack/engine"
+	"ticktack/player"
+)
 
 func main() {
-	g := engine.NewGame()
+	players := []player.Player{
+		{
+			Id:   1,
+			Name: "Foo",
+		},
+		{
+			Id:   2,
+			Name: "Bar",
+		},
+	}
+	g := engine.NewGame(players)
 	g.Start()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
-	g.Finish()
+	g.Win(players[0])
 }

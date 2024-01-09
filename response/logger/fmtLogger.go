@@ -3,11 +3,15 @@ package logger
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"ticktack/internal/player"
+	"ticktack/response/player"
 )
 
 type FmtLogger struct {
 	GameId uuid.UUID
+}
+
+func NewFmtLogger() *FmtLogger {
+	return &FmtLogger{}
 }
 
 func (l *FmtLogger) SetGameId(gameId uuid.UUID) {

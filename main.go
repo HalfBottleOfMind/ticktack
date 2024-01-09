@@ -1,29 +1,26 @@
 package main
 
 import (
-	"ticktack/internal/engine"
-	"ticktack/internal/logger"
-	"ticktack/internal/player"
+	"ticktack/response/engine"
+	"ticktack/response/logger"
+	"ticktack/response/player"
 )
 
 func main() {
-	p := []player.Player{
-		{
-			Id:   1,
-			Name: "Foo",
-		},
-		{
-			Id:   2,
-			Name: "Bar",
-		},
+	p1 := player.Player{
+		Id:   1,
+		Name: "Foo",
 	}
-	l := &logger.FmtLogger{}
-	g := engine.NewGame(p, l)
+	p2 := player.Player{
+		Id:   2,
+		Name: "Bar",
+	}
+	g := engine.NewGame(p1, p2, logger.NewFmtLogger())
 	g.Start()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
-	g.Win(p[0])
+	g.Win(p1)
 }

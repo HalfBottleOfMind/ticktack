@@ -1,6 +1,6 @@
 package engine
 
-type Status uint8
+type Status byte
 
 const (
 	NotStarted Status = iota

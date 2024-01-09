@@ -1,12 +1,13 @@
 package main
 
 import (
-	"ticktack/engine"
-	"ticktack/player"
+	"ticktack/internal/engine"
+	"ticktack/internal/logger"
+	"ticktack/internal/player"
 )
 
 func main() {
-	players := []player.Player{
+	p := []player.Player{
 		{
 			Id:   1,
 			Name: "Foo",
@@ -16,12 +17,13 @@ func main() {
 			Name: "Bar",
 		},
 	}
-	g := engine.NewGame(players)
+	l := &logger.FmtLogger{}
+	g := engine.NewGame(p, l)
 	g.Start()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
 	g.NextTick()
-	g.Win(players[0])
+	g.Win(p[0])
 }

@@ -2,8 +2,8 @@ package engine
 
 import (
 	"github.com/google/uuid"
-	"ticktack/internal"
-	"ticktack/player"
+	"ticktack/internal/logger"
+	"ticktack/internal/player"
 )
 
 type Game struct {
@@ -11,7 +11,7 @@ type Game struct {
 	Tick    uint
 	Players []player.Player
 	Status
-	internal.Logger
+	Logger logger.Logger
 }
 
 func (g *Game) Start() {
@@ -56,12 +56,13 @@ func (g *Game) NextTick() {
 	g.onTick()
 }
 
-func NewGame(players []player.Player) *Game {
+func NewGame(players []player.Player, logger logger.Logger) *Game {
 	id := uuid.New()
+	logger.SetGameId(id)
 	return &Game{
 		Id:      id,
 		Status:  NotStarted,
 		Players: players,
-		Logger:  internal.Logger{GameId: id},
+		Logger:  logger,
 	}
 }

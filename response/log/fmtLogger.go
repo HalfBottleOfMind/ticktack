@@ -1,4 +1,4 @@
-package logger
+package log
 
 import (
 	"fmt"
@@ -26,6 +26,10 @@ func (l *FmtLogger) NewTick(tick uint) {
 	fmt.Printf("%s: New tick: %d\n", l.GameId.String(), tick)
 }
 
+func (l *FmtLogger) NewTurn(turn uint) {
+	fmt.Printf("%s: New turn: %d\n", l.GameId.String(), turn)
+}
+
 func (l *FmtLogger) GameFinished() {
 	fmt.Printf("%s: Game finished\n", l.GameId.String())
 }
@@ -36,4 +40,8 @@ func (l *FmtLogger) Win(player player.Player) {
 
 func (l *FmtLogger) Error(message string) {
 	fmt.Printf("%s: Game stopped with error: %s\n", l.GameId.String(), message)
+}
+
+func (l *FmtLogger) DamageDoneToPlayer(player player.Player) {
+	fmt.Printf("%s: Damage done to player %s (ID: %d)\n", l.GameId.String(), player.Name, player.Id)
 }

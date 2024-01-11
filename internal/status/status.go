@@ -1,4 +1,4 @@
-package engine
+package status
 
 type Status byte
 

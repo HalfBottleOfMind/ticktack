@@ -2,59 +2,76 @@ package engine
 
 import (
 	"github.com/google/uuid"
-	"ticktack/internal/logger"
+	"ticktack/internal/log"
+	"ticktack/internal/status"
 )
 
 type Game struct {
-	Id   uuid.UUID
-	Tick uint
-	Status
-	Logger logger.Logger
+	Id              uuid.UUID
+	Tick            uint
+	status          status.Status
+	Logger          log.Logger
+	onTickCallbacks []func()
+}
+
+func (g *Game) GetStatus() status.Status {
+	return g.status
+}
+
+func (g *Game) SetStatus(status status.Status) {
+	g.status = status
 }
 
 func (g *Game) Start() {
-	if g.Status != NotStarted {
+	if g.status != status.NotStarted {
 		panic("Game cannot be started")
 	}
-	g.Status = InProgress
+	g.status = status.InProgress
 	g.Tick = 0
 	g.Logger.GameStarted()
 }
 
 func (g *Game) Finish() {
-	if g.Status != InProgress {
+	if g.status != status.InProgress {
 		panic("Game is not in progress")
 	}
-	g.Status = Finished
+	g.status = status.Finished
 	g.Logger.GameFinished()
 }
 
 func (g *Game) StopWithError(message string) {
-	if g.Status != InProgress {
+	if g.status != status.InProgress {
 		panic("Game is not in progress")
 	}
-	g.Status = Error
+	g.status = status.Error
 	g.Logger.Error(message)
 }
 
-func (g *Game) onTick() {
+func (g *Game) AddOnTickCallback(callback func()) {
+	g.onTickCallbacks = append(g.onTickCallbacks, callback)
+}
+
+func (g *Game) OnTick() {
 	g.Logger.NewTick(g.Tick)
+	for _, callback := range g.onTickCallbacks {
+		callback()
+	}
 }
 
 func (g *Game) NextTick() {
-	if g.Status != InProgress {
-		panic("Game not in progress")
+	if g.status != status.InProgress {
+		panic("Game is not in progress")
 	}
 	g.Tick += 1
-	g.onTick()
+	g.OnTick()
 }
 
-func NewGame(logger logger.Logger) *Game {
+func NewGame(logger log.Logger) *Game {
 	id := uuid.New()
 	logger.SetGameId(id)
 	return &Game{
 		Id:     id,
-		Status: NotStarted,
+		status: status.NotStarted,
 		Logger: logger,
 	}
 }

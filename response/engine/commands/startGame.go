@@ -4,30 +4,23 @@ import (
 	"ticktack/internal/status"
 )
 
-type target interface {
-	SetStatus(status.Status)
-	GetStatus() status.Status
-}
-
 type StartGame struct {
-	t target
+	Target interface {
+		SetStatus(status.Status)
+		GetStatus() status.Status
+	}
 }
 
 func (c *StartGame) Execute() {
-	if c.t.GetStatus() != status.NotStarted {
+	if c.Target.GetStatus() != status.NotStarted {
 		panic("Game cannot be started")
 	}
-	c.t.SetStatus(status.InProgress)
+	c.Target.SetStatus(status.InProgress)
 }
 
-func (c *StartGame) SetTargets(targets ...any) {
-	if target, ok := targets[0].(target); ok {
-		c.t = target
-	} else {
-		panic("Invalid target")
-	}
-}
-
-func (c *StartGame) GetTargets() []any {
-	return []any{c.t}
+func (c *StartGame) SetTarget(target interface {
+	SetStatus(status.Status)
+	GetStatus() status.Status
+}) {
+	c.Target = target
 }

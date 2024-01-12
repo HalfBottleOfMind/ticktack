@@ -9,41 +9,41 @@ import (
 type Game struct {
 	Id              uuid.UUID
 	Tick            uint
-	status          status.Status
+	Status          status.Status
 	Logger          log.Logger
 	onTickCallbacks []func()
 }
 
 func (g *Game) GetStatus() status.Status {
-	return g.status
+	return g.Status
 }
 
 func (g *Game) SetStatus(status status.Status) {
-	g.status = status
+	g.Status = status
 }
 
 func (g *Game) Start() {
-	if g.status != status.NotStarted {
+	if g.Status != status.NotStarted {
 		panic("Game cannot be started")
 	}
-	g.status = status.InProgress
+	g.Status = status.InProgress
 	g.Tick = 0
 	g.Logger.GameStarted()
 }
 
 func (g *Game) Finish() {
-	if g.status != status.InProgress {
+	if g.Status != status.InProgress {
 		panic("Game is not in progress")
 	}
-	g.status = status.Finished
+	g.Status = status.Finished
 	g.Logger.GameFinished()
 }
 
 func (g *Game) StopWithError(message string) {
-	if g.status != status.InProgress {
+	if g.Status != status.InProgress {
 		panic("Game is not in progress")
 	}
-	g.status = status.Error
+	g.Status = status.Error
 	g.Logger.Error(message)
 }
 
@@ -59,7 +59,7 @@ func (g *Game) OnTick() {
 }
 
 func (g *Game) NextTick() {
-	if g.status != status.InProgress {
+	if g.Status != status.InProgress {
 		panic("Game is not in progress")
 	}
 	g.Tick += 1
@@ -71,7 +71,7 @@ func NewGame(logger log.Logger) *Game {
 	logger.SetGameId(id)
 	return &Game{
 		Id:     id,
-		status: status.NotStarted,
+		Status: status.NotStarted,
 		Logger: logger,
 	}
 }

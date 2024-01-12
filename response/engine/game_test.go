@@ -21,32 +21,53 @@ func TestNewGame(t *testing.T) {
 	assert.Same(t, logger, g.Logger)
 }
 
-func TestGameStarting(t *testing.T) {
+func TestCommandsQueue(t *testing.T) {
 	g := NewGame(
 		player.NewPlayer(1, "John"),
 		player.NewPlayer(2, "Jane"),
 		log.NewNullLogger(),
 	)
-	assert.False(t, g.GetStatus() == status.InProgress)
+	g.AddCommandToQueue(&commands.StartGame{g})
+	g.AddCommandToQueue(&commands.FinishGame{g})
 
-	c := &commands.StartGame{}
-	c.SetTargets(g)
-	g.AddCommandToQueue(c)
+	assert.Equal(t, status.NotStarted, g.GetStatus())
 	g.ExecuteNextCommand()
-	assert.True(t, g.GetStatus() == status.InProgress)
+	assert.Equal(t, status.InProgress, g.GetStatus())
+	g.ExecuteNextCommand()
+	assert.Equal(t, status.Finished, g.GetStatus())
 }
 
-func TestStartingGameInProgress(t *testing.T) {
+func TestGameFinishing(t *testing.T) {
 	g := NewGame(
 		player.NewPlayer(1, "John"),
 		player.NewPlayer(2, "Jane"),
 		log.NewNullLogger(),
 	)
 
-	c := &commands.StartGame{}
-	c.SetTargets(g)
+	c1 := &commands.StartGame{g}
+	g.AddCommandToQueue(c1)
+	g.ExecuteNextCommand()
+
+	c := &commands.FinishGame{g}
 	g.AddCommandToQueue(c)
 	g.ExecuteNextCommand()
-	g.AddCommandToQueue(c)
+	assert.True(t, g.GetStatus() == status.Finished)
+}
+
+func TestFinishingFinishedGame(t *testing.T) {
+	g := NewGame(
+		player.NewPlayer(1, "John"),
+		player.NewPlayer(2, "Jane"),
+		log.NewNullLogger(),
+	)
+
+	c1 := &commands.StartGame{g}
+	g.AddCommandToQueue(c1)
+	g.ExecuteNextCommand()
+
+	c2 := &commands.FinishGame{g}
+	g.AddCommandToQueue(c2)
+	g.AddCommandToQueue(c2)
+	g.ExecuteNextCommand()
 	assert.Panics(t, g.ExecuteNextCommand)
 }

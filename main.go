@@ -13,16 +13,8 @@ func main() {
 	p2 := player.NewPlayer(2, "Jane")
 	g := engine.NewGame(p1, p2, log.NewFmtLogger())
 
-	fmt.Print(g.GetStatus())
-	c := commands.StartGame{}
-	c.SetTargets(g)
-	g.AddCommandToQueue(&c)
+	g.AddCommandToQueue(&commands.StartGame{g})
 	g.ExecuteNextCommand()
-	fmt.Print(g.GetStatus())
 
-	//g.Start()
-	//for g.Status == status.InProgress {
-	//	g.NextTurn()
-	//	g.DealDamageToPlayer(g.PlayerOne)
-	//}
+	fmt.Println(g.GetStatus())
 }

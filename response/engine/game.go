@@ -4,17 +4,25 @@ import (
 	"github.com/google/uuid"
 	"ticktack/internal/engine"
 	"ticktack/response/engine/commands"
+	"ticktack/response/engine/interfaces"
 	"ticktack/response/log"
-	"ticktack/response/player"
 )
 
 type Game struct {
 	*engine.Game
 	Turn         uint
 	Logger       log.Logger
-	PlayerOne    *player.Player
-	PlayerTwo    *player.Player
+	PlayerOne    interfaces.Player
+	PlayerTwo    interfaces.Player
 	CommandQueue []commands.Command
+}
+
+func (g *Game) GetPlayerOne() interfaces.Player {
+	return g.PlayerOne
+}
+
+func (g *Game) GetPlayerTwo() interfaces.Player {
+	return g.PlayerTwo
 }
 
 func (g *Game) AddCommandToQueue(c commands.Command) {
@@ -26,7 +34,7 @@ func (g *Game) ExecuteNextCommand() {
 	g.CommandQueue = g.CommandQueue[1:]
 }
 
-func NewGame(playerOne, playerTwo *player.Player, logger log.Logger) *Game {
+func NewGame(playerOne, playerTwo interfaces.Player, logger log.Logger) *Game {
 	id := uuid.New()
 	logger.SetGameId(id)
 	return &Game{

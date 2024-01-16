@@ -1,8 +1,24 @@
 package interfaces
 
-import "ticktack/internal/status"
+import (
+	"ticktack/internal/status"
+)
 
 type HasStatus interface {
-	SetStatus(status.Status)
-	GetStatus() status.Status
+	GetStatus() status.GameStatus
+	SetStatus(status.GameStatus)
+}
+
+type Player interface {
+	HasInitiative
+}
+
+type HasInitiative interface {
+	GetInitiative() bool
+	SetInitiative(bool)
+}
+
+type HasPlayers interface {
+	GetPlayerOne() Player
+	GetPlayerTwo() Player
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func TestFinishGame_FinishingGame(t *testing.T) {
-	g := &gameStub{status.InProgress}
+	g := &gameStub{Status: status.InProgress}
 	c := FinishGame{g}
 
 	c.Execute()
@@ -16,14 +16,14 @@ func TestFinishGame_FinishingGame(t *testing.T) {
 }
 
 func TestFinishGame_FinishingGameNotInProgress(t *testing.T) {
-	g := &gameStub{status.NotStarted}
+	g := &gameStub{Status: status.NotStarted}
 	c := FinishGame{g}
 
 	assert.Panics(t, c.Execute)
 }
 
 func TestFinishGame_SettingTarget(t *testing.T) {
-	g := &gameStub{status.InProgress}
+	g := &gameStub{Status: status.InProgress}
 	c := FinishGame{}
 	c.SetTarget(g)
 

@@ -9,16 +9,16 @@ import (
 type Game struct {
 	Id              uuid.UUID
 	Tick            uint
-	Status          status.Status
+	Status          status.GameStatus
 	Logger          log.Logger
 	onTickCallbacks []func()
 }
 
-func (g *Game) GetStatus() status.Status {
+func (g *Game) GetStatus() status.GameStatus {
 	return g.Status
 }
 
-func (g *Game) SetStatus(status status.Status) {
+func (g *Game) SetStatus(status status.GameStatus) {
 	g.Status = status
 }
 

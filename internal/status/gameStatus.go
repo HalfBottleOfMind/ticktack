@@ -1,9 +1,9 @@
 package status
 
-type Status byte
+type GameStatus byte
 
 const (
-	NotStarted Status = iota
+	NotStarted GameStatus = iota
 	InProgress
 	Finished
 	Error

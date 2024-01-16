@@ -1,12 +1,12 @@
 package commands
 
-import "ticktack/internal/status"
+import (
+	"ticktack/internal/status"
+	"ticktack/response/engine/interfaces"
+)
 
 type FinishGame struct {
-	Target interface {
-		SetStatus(status.Status)
-		GetStatus() status.Status
-	}
+	Target interfaces.HasStatus
 }
 
 func (c *FinishGame) Execute() {
@@ -16,9 +16,6 @@ func (c *FinishGame) Execute() {
 	c.Target.SetStatus(status.Finished)
 }
 
-func (c *FinishGame) SetTarget(target interface {
-	SetStatus(status.Status)
-	GetStatus() status.Status
-}) {
+func (c *FinishGame) SetTarget(target interfaces.HasStatus) {
 	c.Target = target
 }

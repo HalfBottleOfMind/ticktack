@@ -2,13 +2,11 @@ package commands
 
 import (
 	"ticktack/internal/status"
+	"ticktack/response/engine/interfaces"
 )
 
 type StartGame struct {
-	Target interface {
-		SetStatus(status.Status)
-		GetStatus() status.Status
-	}
+	Target interfaces.HasStatus
 }
 
 func (c *StartGame) Execute() {
@@ -18,9 +16,6 @@ func (c *StartGame) Execute() {
 	c.Target.SetStatus(status.InProgress)
 }
 
-func (c *StartGame) SetTarget(target interface {
-	SetStatus(status.Status)
-	GetStatus() status.Status
-}) {
+func (c *StartGame) SetTarget(target interfaces.HasStatus) {
 	c.Target = target
 }

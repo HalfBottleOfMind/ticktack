@@ -1,9 +1,10 @@
 package engine
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"ticktack/src/engine/player"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewGame(t *testing.T) {

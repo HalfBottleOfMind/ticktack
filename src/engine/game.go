@@ -1,10 +1,11 @@
 package engine
 
 import (
-	"github.com/google/uuid"
 	"ticktack/src/engine/commandBus"
 	"ticktack/src/engine/player"
 	"ticktack/src/engine/state"
+
+	"github.com/google/uuid"
 )
 
 type Game struct {

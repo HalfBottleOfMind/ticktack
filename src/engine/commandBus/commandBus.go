@@ -1,8 +1,8 @@
 package commandBus
 
 import (
-	"ticktack/response/engine/commandBus/commands"
-	"ticktack/response/engine/state"
+	"ticktack/src/engine/commandBus/commands"
+	"ticktack/src/engine/state"
 )
 
 type Bus struct {

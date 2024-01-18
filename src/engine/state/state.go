@@ -1,7 +1,7 @@
 package state
 
 import (
-	"ticktack/response/engine/player"
+	"ticktack/src/engine/player"
 )
 
 type State struct {

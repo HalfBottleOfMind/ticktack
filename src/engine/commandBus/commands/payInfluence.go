@@ -2,8 +2,8 @@ package commands
 
 import (
 	"fmt"
-	"ticktack/response/engine/player"
-	"ticktack/response/engine/state"
+	"ticktack/src/engine/player"
+	"ticktack/src/engine/state"
 )
 
 type PayInfluence struct {

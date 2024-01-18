@@ -1,6 +1,6 @@
 package commands
 
-import "ticktack/response/engine/state"
+import "ticktack/src/engine/state"
 
 type Target uint
 

@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"ticktack/response/engine/state"
+	"ticktack/src/engine/state"
 )
 
 type StartGame struct{}

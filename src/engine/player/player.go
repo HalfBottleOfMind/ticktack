@@ -1,6 +1,8 @@
 package player
 
-import "ticktack/response/cards/hero"
+import (
+	"ticktack/src/engine/hero"
+)
 
 type Player struct {
 	Id         uint

@@ -2,9 +2,9 @@ package engine
 
 import (
 	"github.com/google/uuid"
-	"ticktack/response/engine/commandBus"
-	"ticktack/response/engine/player"
-	"ticktack/response/engine/state"
+	"ticktack/src/engine/commandBus"
+	"ticktack/src/engine/player"
+	"ticktack/src/engine/state"
 )
 
 type Game struct {

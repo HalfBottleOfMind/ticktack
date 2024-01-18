@@ -4,8 +4,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
-	"ticktack/response/engine/player"
-	"ticktack/response/engine/state"
+	"ticktack/src/engine/player"
+	"ticktack/src/engine/state"
 )
 
 type CommandMock struct {

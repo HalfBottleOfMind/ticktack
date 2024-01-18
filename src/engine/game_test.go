@@ -3,7 +3,7 @@ package engine
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"ticktack/response/engine/player"
+	"ticktack/src/engine/player"
 )
 
 func TestNewGame(t *testing.T) {

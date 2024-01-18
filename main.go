@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"ticktack/response/engine"
-	"ticktack/response/engine/player"
+	"ticktack/src/engine"
+	"ticktack/src/engine/player"
 )
 
 func main() {

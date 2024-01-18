@@ -3,9 +3,9 @@ package commands
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"ticktack/response/cards/hero"
-	"ticktack/response/engine/player"
-	"ticktack/response/engine/state"
+	"ticktack/src/engine/hero"
+	"ticktack/src/engine/player"
+	"ticktack/src/engine/state"
 )
 
 func TestStartGame_StartingGame(t *testing.T) {

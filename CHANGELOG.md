@@ -1,10 +1,14 @@
 # Changelog
-## v0.0.2-dev
+## 0.0.3-dev
+### Changed
+- Errors instead of panic in commands
+
+## 0.0.2-dev
 ### Added
 - Hero
 - PayInfluence command
 
-## v0.0.1-dev
+## 0.0.1-dev
 ### Added
 - Game
 - State

@@ -10,6 +10,6 @@ func (si *SwitchInitiative) Execute(s *state.State) {
 	if s.GameStatus != state.InProgress {
 		panic("Game not in progress")
 	}
-	s.PlayerOne.SetInitiative(!s.PlayerOne.GetInitiative())
-	s.PlayerTwo.SetInitiative(!s.PlayerTwo.GetInitiative())
+	s.PlayerOne.Initiative = !s.PlayerOne.Initiative
+	s.PlayerTwo.Initiative = !s.PlayerTwo.Initiative
 }

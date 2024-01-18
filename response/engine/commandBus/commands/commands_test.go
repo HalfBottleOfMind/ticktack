@@ -57,8 +57,8 @@ func TestSwitchInitiative(t *testing.T) {
 
 	c.Execute(s)
 
-	assert.False(t, s.PlayerOne.GetInitiative())
-	assert.True(t, s.PlayerTwo.GetInitiative())
+	assert.False(t, s.PlayerOne.Initiative)
+	assert.True(t, s.PlayerTwo.Initiative)
 }
 
 func TestSwitchInitiative_GameNotInProgress(t *testing.T) {

@@ -45,18 +45,18 @@ func TestBus_Add_GameFinished(t *testing.T) {
 func TestBus_ExecuteNext_ExecuteCalling(t *testing.T) {
 	b := Bus{State: &State}
 	c := CommandMock{}
-	c.On("Execute")
+	c.On("Execute", &State)
 
 	b.Add(&c)
 	b.ExecuteNext()
 
-	c.AssertNumberOfCalls(t, "Execute", 1)
+	c.AssertExpectations(t)
 }
 
 func TestBus_ExecuteNext_CommandRemovedFromQueue(t *testing.T) {
 	b := Bus{State: &State}
 	c := CommandMock{}
-	c.On("Execute")
+	c.On("Execute", &State)
 
 	b.Add(&c)
 	assert.Contains(t, b.Queue, &c)

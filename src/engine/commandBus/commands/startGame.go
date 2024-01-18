@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"errors"
 	"ticktack/src/engine/state"
 )
 
@@ -9,16 +8,17 @@ type StartGame struct {
 	defaultCommand
 }
 
-func (c *StartGame) Execute(s *state.State) {
+func (c *StartGame) Execute(s *state.State) error {
 	if err := c.validate(s); err != nil {
-		panic("Game cannot be started")
+		return err
 	}
 	s.GameStatus = state.InProgress
+	return nil
 }
 
 func (c *StartGame) validate(s *state.State) error {
-	if s.GameStatus != state.InProgress {
-		return errors.New("game cannot be started")
+	if s.GameStatus != state.NotStarted {
+		return ErrGameAlreadyInProgress
 	}
 	return nil
 }

@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"errors"
 	"ticktack/src/engine/state"
 )
 
@@ -13,14 +12,14 @@ const (
 )
 
 type Command interface {
-	Execute(s *state.State)
+	Execute(s *state.State) error
 }
 
 type defaultCommand struct{}
 
 func (c *defaultCommand) validate(s *state.State) error {
 	if s.GameStatus != state.InProgress {
-		return errors.New("game not in progress")
+		return ErrGameNotInProgress
 	}
 	return nil
 }

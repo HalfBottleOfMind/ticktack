@@ -1,19 +1,21 @@
 package commands
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"ticktack/src/engine/hero"
 	"ticktack/src/engine/player"
 	"ticktack/src/engine/state"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestStartGame_StartingGame(t *testing.T) {
 	s := &state.State{GameStatus: state.NotStarted}
 	c := StartGame{}
 
-	c.Execute(s)
+	err := c.Execute(s)
 
+	assert.Nil(t, err)
 	assert.Equal(t, state.InProgress, s.GameStatus)
 }
 
@@ -21,19 +23,18 @@ func TestStartGame_StartingGameInProgress(t *testing.T) {
 	s := &state.State{GameStatus: state.InProgress}
 	c := StartGame{}
 
-	shouldPanic := func() {
-		c.Execute(s)
-	}
+	err := c.Execute(s)
 
-	assert.Panics(t, shouldPanic)
+	assert.Error(t, err, ErrGameAlreadyInProgress)
 }
 
 func TestFinishGame_FinishingGame(t *testing.T) {
 	s := &state.State{GameStatus: state.InProgress}
 	c := FinishGame{}
 
-	c.Execute(s)
+	err := c.Execute(s)
 
+	assert.Nil(t, err)
 	assert.Equal(t, state.Finished, s.GameStatus)
 }
 
@@ -41,11 +42,9 @@ func TestFinishGame_FinishingGameNotInProgress(t *testing.T) {
 	s := &state.State{GameStatus: state.NotStarted}
 	c := FinishGame{}
 
-	shouldPanic := func() {
-		c.Execute(s)
-	}
+	err := c.Execute(s)
 
-	assert.Panics(t, shouldPanic)
+	assert.Error(t, err, ErrGameNotInProgress)
 }
 
 func TestSwitchInitiative(t *testing.T) {
@@ -56,8 +55,9 @@ func TestSwitchInitiative(t *testing.T) {
 	}
 	c := SwitchInitiative{}
 
-	c.Execute(s)
+	err := c.Execute(s)
 
+	assert.Nil(t, err)
 	assert.False(t, s.PlayerOne.Initiative)
 	assert.True(t, s.PlayerTwo.Initiative)
 }
@@ -70,11 +70,9 @@ func TestSwitchInitiative_GameNotInProgress(t *testing.T) {
 	}
 	c := SwitchInitiative{}
 
-	shouldPanic := func() {
-		c.Execute(s)
-	}
+	err := c.Execute(s)
 
-	assert.Panics(t, shouldPanic)
+	assert.Error(t, err, ErrGameNotInProgress)
 }
 
 func TestPayInfluence_Execute_PlayerOne(t *testing.T) {
@@ -88,8 +86,9 @@ func TestPayInfluence_Execute_PlayerOne(t *testing.T) {
 		Cost:   2,
 	}
 
-	c.Execute(s)
+	err := c.Execute(s)
 
+	assert.Nil(t, err)
 	assert.Equal(t, uint(3), s.PlayerOne.Hero.CurrentInfluence)
 }
 
@@ -104,8 +103,9 @@ func TestPayInfluence_Execute_PlayerTow(t *testing.T) {
 		Cost:   2,
 	}
 
-	c.Execute(s)
+	err := c.Execute(s)
 
+	assert.Nil(t, err)
 	assert.Equal(t, uint(3), s.PlayerTwo.Hero.CurrentInfluence)
 }
 
@@ -115,11 +115,9 @@ func TestPayInfluence_Execute_GameNotInProgress(t *testing.T) {
 	}
 	c := PayInfluence{}
 
-	shouldPanic := func() {
-		c.Execute(s)
-	}
+	err := c.Execute(s)
 
-	assert.Panics(t, shouldPanic)
+	assert.Error(t, err, ErrGameNotInProgress)
 }
 
 func TestPayInfluence_Execute_InvalidTarget(t *testing.T) {

@@ -8,9 +8,10 @@ type FinishGame struct {
 	defaultCommand
 }
 
-func (c *FinishGame) Execute(s *state.State) {
+func (c *FinishGame) Execute(s *state.State) error {
 	if err := c.validate(s); err != nil {
-		panic("Game cannot be finished")
+		return err
 	}
 	s.GameStatus = state.Finished
+	return nil
 }

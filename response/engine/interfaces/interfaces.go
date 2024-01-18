@@ -1,12 +1,12 @@
 package interfaces
 
 import (
-	"ticktack/internal/status"
+	"ticktack/response/engine/state"
 )
 
 type HasStatus interface {
-	GetStatus() status.GameStatus
-	SetStatus(status.GameStatus)
+	GetStatus() state.GameStatus
+	SetStatus(state.GameStatus)
 }
 
 type Player interface {

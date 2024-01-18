@@ -15,8 +15,8 @@ func (p *Player) SetInitiative(i bool) {
 	p.Initiative = i
 }
 
-func NewPlayer(id uint, name string) *Player {
-	return &Player{
+func NewPlayer(id uint, name string) Player {
+	return Player{
 		Id:     id,
 		Name:   name,
 		Health: 5,

@@ -3,18 +3,13 @@ package main
 import (
 	"fmt"
 	"ticktack/response/engine"
-	"ticktack/response/engine/commands"
-	"ticktack/response/log"
-	"ticktack/response/player"
+	"ticktack/response/engine/player"
 )
 
 func main() {
 	p1 := player.NewPlayer(1, "John")
 	p2 := player.NewPlayer(2, "Jane")
-	g := engine.NewGame(p1, p2, log.NewFmtLogger())
+	g := engine.NewGame(&p1, &p2)
 
-	g.AddCommandToQueue(&commands.StartGame{g})
-	g.ExecuteNextCommand()
-
-	fmt.Println(g.GetStatus())
+	fmt.Println(g.State.IsFinished())
 }

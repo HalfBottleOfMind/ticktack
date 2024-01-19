@@ -2,6 +2,7 @@ package commands
 
 import (
 	"testing"
+	"ticktack/src/engine/card"
 	"ticktack/src/engine/hero"
 	"ticktack/src/engine/player"
 	"ticktack/src/engine/state"
@@ -121,5 +122,45 @@ func TestPayInfluence_Execute_GameNotInProgress(t *testing.T) {
 }
 
 func TestPayInfluence_Execute_InvalidTarget(t *testing.T) {
+	t.Skip()
+}
+
+func TestPlayCard_Execute(t *testing.T) {
+	t.Skip()
+}
+
+func TestPlayCard_Execute_GameNotInProgress(t *testing.T) {
+	s := &state.State{GameStatus: state.NotStarted}
+	c := PlayCard{}
+
+	err := c.Execute(s)
+
+	assert.Error(t, err, ErrGameNotInProgress)
+}
+
+func TestPlayCard_Execute_PayInfluenceExecuted(t *testing.T) {
+	s := &state.State{
+		GameStatus: state.InProgress,
+		PlayerOne: &player.Player{
+			Hero: &hero.Hero{CurrentInfluence: 5},
+		},
+	}
+	c := PlayCard{
+		Card:   card.Card{Cost: 2},
+		Player: PlayerOne,
+		Target: PlayerOne,
+	}
+
+	err := c.Execute(s)
+	assert.Nil(t, err)
+
+	assert.Equal(t, uint(3), s.PlayerOne.Hero.CurrentInfluence)
+}
+
+func TestPlayCard_Execute_InvalidPlayer(t *testing.T) {
+	t.Skip()
+}
+
+func TestPlayCard_Execute_CardGoesToGraveyard(t *testing.T) {
 	t.Skip()
 }

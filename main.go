@@ -2,14 +2,24 @@ package main
 
 import (
 	"fmt"
-	"ticktack/src/engine"
-	"ticktack/src/engine/player"
+	"ticktack/src/engine/command"
+	"ticktack/src/engine/manager"
+	"ticktack/src/engine/state"
+	"ticktack/src/engine/trigger"
 )
 
 func main() {
-	p1 := player.NewPlayer(1, "John")
-	p2 := player.NewPlayer(2, "Jane")
-	g := engine.NewGame(&p1, &p2)
+	m := manager.Manager{
+		State: state.NewState(),
+	}
+	m.AddTrigger(trigger.NewTestTrigger())
+	m.State.SetWinner(1)
 
-	fmt.Println(g.State.IsFinished())
+	m.AddToCommandQueue(&command.StartGame{})
+	m.ProcessCommandQueue()
+	for len(m.EventQueue) != 0 {
+		m.ProcessEventQueue()
+	}
+
+	fmt.Print(m.State.Winner())
 }

@@ -25,10 +25,10 @@ func (b *Bus) ExecuteNext() {
 	if b.Queue[0].Execute(b.State) == nil {
 		b.Queue = b.Queue[1:]
 	} else {
-		b.Error()
+		b.error()
 	}
 }
 
-func (b *Bus) Error() {
+func (b *Bus) error() {
 	b.State.GameStatus = state.Error
 }

@@ -1,8 +1,11 @@
 package manager
 
 import (
+	"fmt"
+	"reflect"
 	"ticktack/src/engine/command"
 	"ticktack/src/engine/event"
+	"ticktack/src/engine/log"
 	"ticktack/src/engine/state"
 	"ticktack/src/engine/trigger"
 )
@@ -16,6 +19,7 @@ type Manager struct {
 
 func (m *Manager) AddToCommandQueue(c command.Command) {
 	m.CommandQueue = append(m.CommandQueue, c)
+	log.GetLogger().Message(fmt.Sprintf("Message: command added to queue\nCommand name: %s\nCurrent queue len: %d\n", reflect.TypeOf(c), len(m.CommandQueue)))
 }
 
 func (m *Manager) ProcessCommandQueue() error {

@@ -15,7 +15,7 @@ func NewTestTrigger() *TestTrigger {
 		defaultTrigger{
 			eventName: event.GameStarted,
 			Action: func(s *state.State) error {
-				return s.SetWinner(interfaces.PlayerOne)
+				return s.SetWinner(interfaces.PlayerTwo)
 			},
 		},
 	}

@@ -18,8 +18,11 @@ type State struct {
 	status GameStatus
 }
 
-func (s *State) Winner() interfaces.Target {
-	return s.winner
+func (s *State) Winner() (interfaces.Target, error) {
+	if s.Status() != Finished {
+		return 0, errors.New("game is not finished")
+	}
+	return s.winner, nil
 }
 
 func (s *State) Status() GameStatus {

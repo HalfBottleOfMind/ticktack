@@ -13,13 +13,21 @@ func main() {
 		State: state.NewState(),
 	}
 	m.AddTrigger(trigger.NewTestTrigger())
-	m.State.SetWinner(1)
 
 	m.AddToCommandQueue(&command.StartGame{})
-	m.ProcessCommandQueue()
-	for len(m.EventQueue) != 0 {
-		m.ProcessEventQueue()
+	m.AddToCommandQueue(&command.FinishGame{})
+
+	for len(m.CommandQueue) > 0 {
+		if err := m.ProcessCommandQueue(); err != nil {
+			panic(err)
+		}
+
+		for len(m.EventQueue) > 0 {
+			if err := m.ProcessEventQueue(); err != nil {
+				panic(err)
+			}
+		}
 	}
 
-	fmt.Print(m.State.Winner())
+	fmt.Println(m.State.Winner())
 }
